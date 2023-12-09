@@ -354,14 +354,15 @@ class Battle(Menu):
                 game_state.game_over = True
 
 
+import subprocess
+import re
+
 def get_active_window_title():
     try:
         root = subprocess.Popen(
             ["xprop", "-root", "_NET_ACTIVE_WINDOW"], stdout=subprocess.PIPE
         )
         stdout, stderr = root.communicate()
-
-        print("stdout:", stdout)  # Add this line to print the stdout
 
         m = re.search(b"^_NET_ACTIVE_WINDOW.* ([\\w]+)$", stdout)
         if m is not None:
@@ -373,17 +374,18 @@ def get_active_window_title():
         else:
             return None
 
-        print("stdout (after second subprocess):", stdout)  # Add this line to print the stdout
-
         match = re.match(b"WM_NAME\\(\\w+\\) = (?P<name>.+)$", stdout)
         if match is not None:
             return match.group("name").strip(b'"')
 
-    except FileNotFoundError as e:
-        print(f"File not found error: {e}")
+    except FileNotFoundError:
+        return None
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
         return None
 
     return None
+
 
 def game_menu(game_state, console, game_window):
     text = Text(
