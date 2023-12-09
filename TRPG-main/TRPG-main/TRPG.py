@@ -17,15 +17,11 @@ import re
 sys.path.append("Characters")
 sys.path.append("Adventures")
 sys.path.append("Saves")
-try:
-    import characters as cha
-    import adventures as adv
-    import saves as sav
-else:
-    print("fuck, closing the game...")
-    time.sleep(2)
-finally:
-    sys.exit()
+
+import characters as cha
+import adventures as adv
+import saves as sav
+
 
 
 
