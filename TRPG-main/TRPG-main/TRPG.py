@@ -355,27 +355,35 @@ class Battle(Menu):
 
 
 def get_active_window_title():
-    root = subprocess.Popen(
-        ["xprop", "-root", "_NET_ACTIVE_WINDOW"], stdout=subprocess.PIPE
-    )
-    stdout, stderr = root.communicate()
-
-    m = re.search(b"^_NET_ACTIVE_WINDOW.* ([\\w]+)$", stdout)
-    if m is not None:
-        window_id = m.group(1)
-        window = subprocess.Popen(
-            ["xprop", "-id", window_id, "WM_NAME"], stdout=subprocess.PIPE
+    try:
+        root = subprocess.Popen(
+            ["xprop", "-root", "_NET_ACTIVE_WINDOW"], stdout=subprocess.PIPE
         )
-        stdout, stderr = window.communicate()
-    else:
+        stdout, stderr = root.communicate()
+
+        print("stdout:", stdout)  # Add this line to print the stdout
+
+        m = re.search(b"^_NET_ACTIVE_WINDOW.* ([\\w]+)$", stdout)
+        if m is not None:
+            window_id = m.group(1)
+            window = subprocess.Popen(
+                ["xprop", "-id", window_id, "WM_NAME"], stdout=subprocess.PIPE
+            )
+            stdout, stderr = window.communicate()
+        else:
+            return None
+
+        print("stdout (after second subprocess):", stdout)  # Add this line to print the stdout
+
+        match = re.match(b"WM_NAME\\(\\w+\\) = (?P<name>.+)$", stdout)
+        if match is not None:
+            return match.group("name").strip(b'"')
+
+    except FileNotFoundError as e:
+        print(f"File not found error: {e}")
         return None
 
-    match = re.match(b"WM_NAME\\(\\w+\\) = (?P<name>.+)$", stdout)
-    if match is not None:
-        return match.group("name").strip(b'"')
-
     return None
-
 
 def game_menu(game_state, console, game_window):
     text = Text(
