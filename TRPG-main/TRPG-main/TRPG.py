@@ -21,10 +21,7 @@ try:
     import characters as cha
     import adventures as adv
     import saves as sav
-except ModuleNotFoundError:
-    print("Couldn't find the necessary functions, closing the game...")
-    time.sleep(2)
-    sys.exit()
+
 
 
 class GameState:
