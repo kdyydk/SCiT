@@ -8,6 +8,7 @@ from rich.text import Text
 from rich.columns import Columns
 from rich import box
 import os
+os.chdir("C:\Users\t00th\Os_midterm\TRPG-main\TRPG-main")
 import random
 import time
 import sys
