@@ -21,6 +21,10 @@ try:
     import characters as cha
     import adventures as adv
     import saves as sav
+else:
+    print("fuck, closing the game...")
+    time.sleep(2)
+    sys.exit()
 
 
 
