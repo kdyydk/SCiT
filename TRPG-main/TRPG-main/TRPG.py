@@ -24,6 +24,7 @@ try:
 else:
     print("fuck, closing the game...")
     time.sleep(2)
+finally:
     sys.exit()
 
 
