@@ -14,6 +14,7 @@ import time
 import sys
 import subprocess
 import re
+import webbrowser
 
 sys.path.append("Characters")
 sys.path.append("Adventures")
@@ -76,7 +77,11 @@ class Menu:
                 self.print_options()
 
             elif key == keyboard.Key.enter:
-                return False
+                if list(self.options.keys())[self.current_option] == "open_website":
+                    # Open the specified website
+                    webbrowser.open("https://trpgcommunity.imweb.me/")
+                else:
+                    return False
 
             else:
                 os.system("clear")
@@ -422,6 +427,7 @@ def initialize_game(game_state, console, game_window):
         "create": "Create a character",
         "start": "Start an adventure",
         "load": "Load a saved game",
+        "open_website": "Open TRPG Community Website",
         "exit": "Exit",
     }
 
