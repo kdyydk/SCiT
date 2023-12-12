@@ -358,10 +358,6 @@ class Battle(Menu):
                 battle_finished = True
                 game_state.game_over = True
 
-
-import subprocess
-import re
-
 def get_active_window_title():
     try:
         root = subprocess.Popen(
